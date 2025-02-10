@@ -4,9 +4,6 @@
 
 #include "Lox.h"
 
-Lox::Lox() : hadError(false)
-{
-}
 
 void Lox::run(std::string& source)
 {

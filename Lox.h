@@ -8,7 +8,7 @@ class Lox
     private: 
         bool hadError;
     public:
-        Lox();
+        Lox() : hadError(false) {};
         ~Lox() = default;
         void run(std::string& source);
         void runPrompt();
