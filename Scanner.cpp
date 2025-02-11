@@ -61,6 +61,9 @@ void Scanner::scanToken()
             if (match('/')) {
             // A comment goes until the end of the line.
                 while (peek() != '\n' && !isAtEnd()) advance();
+            }
+            else if (match('*')) {
+                commentBlock();
             } else {
                 addToken(Token::TokenType::SLASH);
             }
@@ -185,3 +188,35 @@ char Scanner::peekNext()
     return source[current + 1];
 
 }
+
+// TODO: implement nested comment block
+void Scanner::commentBlock()
+{
+    int nested = 1;
+    while(nested > 0 && !isAtEnd())
+    {
+        if(peek() == '*' && peekNext() == '/')
+        {
+            nested--; 
+            advance(); 
+        }
+        else if (peek() == '/' && peekNext() == '*')
+        {
+            nested++;
+            advance();
+        }
+        else if(peek() == '\n')
+        {
+            line++;
+
+        }         
+        advance();
+    }
+    
+    if(isAtEnd())
+    {
+        lox->error(line, "Unterminated comment block");
+        return;
+    }
+}
+    

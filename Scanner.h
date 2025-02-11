@@ -36,4 +36,5 @@ private:
     void number(); 
     char peekNext();
     void identifier();
+    void commentBlock();
 };
