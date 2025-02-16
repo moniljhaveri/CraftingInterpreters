@@ -33,6 +33,7 @@ void Lox::runFile(std::string_view& path)
 	std::string str(vec.begin(), vec.end());
 	run(str);
 }
+
 void Lox::error(int line, std::string message)
 {
     report(line, "", message);

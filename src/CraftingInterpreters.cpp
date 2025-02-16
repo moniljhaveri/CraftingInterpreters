@@ -13,6 +13,7 @@
 #include "CraftingInterpreters.h"
 #include "Lox.h"
 #include "Token.h"
+#include "ErrorReport.h"
 
 using namespace std;
 

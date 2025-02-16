@@ -1,5 +1,6 @@
 #include <unordered_map>
 #include "Scanner.h"
+//#include "ErrorReport.h"
 
 const std::unordered_map<std::string, Token::TokenType> keywords = {
     {"and", Token::TokenType::AND},
@@ -89,7 +90,7 @@ void Scanner::scanToken()
             }
             else 
             {
-                lox->error(line, "Unexpected character.");
+                //errReport.error(line, "Unexpected character.");
             }
             break;
     }
@@ -154,7 +155,7 @@ void Scanner::string()
     }
 
     if (isAtEnd()) {
-      lox->error(line, "Unterminated string.");
+      //errReport.error(line, "Unterminated string.");
       return;
     }
 
@@ -215,7 +216,7 @@ void Scanner::commentBlock()
     
     if(isAtEnd())
     {
-        lox->error(line, "Unterminated comment block");
+        //errReport.error(line, "Unterminated comment block");
         return;
     }
 }
