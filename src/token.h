@@ -46,6 +46,10 @@ struct Token
                 return "";
         }
     }
+    auto getType()
+    {
+        return type;
+    }
 };
 
 }
