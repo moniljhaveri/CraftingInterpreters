@@ -6,6 +6,6 @@
 class Expr 
 {
     public: 
-        ~Expr() = default; 
-        virtual std::any accept(Visitor<std::any>& visitor) const = 0;
+        virtual ~Expr() = default; 
+        virtual void accept(Visitor& visitor) const = 0;
 };

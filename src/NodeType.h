@@ -7,13 +7,13 @@
 class Binary : public Expr 
 {
     public: 
-        Binary(std::shared_ptr<Expr> left, Token::Token op, std::shared_ptr<Expr> right): left(std::move(left)), op(std::move(op)), right(std::move(right))
+        explicit Binary(std::shared_ptr<Expr> left, Token::Token op, std::shared_ptr<Expr> right): left(std::move(left)), op(std::move(op)), right(std::move(right))
         {};
-        std::any accept(Visitor<std::any>& visitor) const
+        void accept(Visitor& visitor) const
         {
-            return visitor.visitBinary(*this);
+            visitor.visitBinary(*this);
         }
-    private: 
+
         std::shared_ptr<Expr> left; 
         Token::Token op; 
         std::shared_ptr<Expr> right; 
@@ -23,26 +23,24 @@ class Binary : public Expr
 class Literal : public Expr 
 {
     public: 
-        Literal(std::any expr): expr(std::move(expr)){};
-        std::any accept(Visitor<std::any>& visitor) const
+        explicit Literal(Token::Token& token): op(std::move(token)){};
+        void accept(Visitor& visitor) const
         {
-            return visitor.visitLiteral(*this);
+            visitor.visitLiteral(*this);
         }
-    private: 
-        std::any expr; 
+        Token::Token op; 
 };
 
 
 class Logical : public Expr 
 {
     public: 
-        Logical(std::shared_ptr<Expr> left, Token::Token op, std::shared_ptr<Expr> right): left(std::move(left)), op(std::move(op)), right(std::move(right))
+        explicit Logical(std::shared_ptr<Expr> left, Token::Token op, std::shared_ptr<Expr> right): left(std::move(left)), op(std::move(op)), right(std::move(right))
         {};
-        std::any accept(Visitor<std::any>& visitor) const
+        void accept(Visitor& visitor) const
         {
-            return visitor.visitLogical(*this);
+            visitor.visitLogical(*this);
         }
-    private: 
         std::shared_ptr<Expr> left; 
         Token::Token op; 
         std::shared_ptr<Expr> right; 
@@ -51,65 +49,60 @@ class Logical : public Expr
 class Assign : public Expr 
 {
     public: 
-        Assign(Token::Token name, std::unique_ptr<Expr> value) : name(name), value(std::move(value))
+        explicit Assign(Token::Token name, std::shared_ptr<Expr> value) : name(name), value(std::move(value))
         {}; 
-        std::any accept(Visitor<std::any>& visitor) const
+        void accept(Visitor& visitor) const
         {
-            return visitor.visitAssign(*this);
+            visitor.visitAssign(*this);
         }
 
-    private: 
         Token::Token name; 
-        std::unique_ptr<Expr> value;
+        std::shared_ptr<Expr> value;
 };
 
 class Call : public Expr 
 {
     public: 
-        Call(std::unique_ptr<Expr> callee, Token::Token paren, std::vector<std::unique_ptr<Expr>> arg);
-        std::any accept(Visitor<std::any>& visitor) const
+        Call(std::shared_ptr<Expr> callee, Token::Token paren, std::vector<std::shared_ptr<Expr>> arg);
+        void accept(Visitor& visitor) const
         {
-            return visitor.visitCall(*this);
+            visitor.visitCall(*this);
         }
-    private: 
-        std::unique_ptr<Expr> callee;
+        std::shared_ptr<Expr> callee;
         Token::Token paren; 
-        std::vector<std::unique_ptr<Expr>> arg; 
+        std::vector<std::shared_ptr<Expr>> arg; 
 };
 
 class Grouping : public Expr 
 {
     public: 
-        Grouping(std::unique_ptr<Expr> expr): expr(std::move(expr)) {};
-        std::any accept(Visitor<std::any>& visitor) const
+        Grouping(std::shared_ptr<Expr> expr): expr(std::move(expr)) {};
+        void accept(Visitor& visitor) const
         {
-            return visitor.visitGrouping(*this);
+            visitor.visitGrouping(*this);
         }
-    private: 
-        std::unique_ptr<Expr> expr;
+        std::shared_ptr<Expr> expr;
 };
 
 class Unary : public Expr 
 {
     public: 
-        Unary(Token::Token op, std::unique_ptr<Expr> right) : op(op), right(std::move(right)) {}; 
-        std::any accept(Visitor<std::any>& visitor) const
+        Unary(Token::Token op, std::shared_ptr<Expr> right) : op(op), right(std::move(right)) {}; 
+        void accept(Visitor& visitor) const
         {
-            return visitor.visitUnary(*this);
+            visitor.visitUnary(*this);
         };
-    private: 
         Token::Token op; 
-        std::unique_ptr<Expr> right; 
+        std::shared_ptr<Expr> right; 
 }; 
 
 class Var : public Expr 
 {
     public: 
         Var(Token::Token name) : name(name){}; 
-        std::any accept(Visitor<std::any>& visitor) const
+        void accept(Visitor& visitor) const
         {
-            return visitor.visitVar(*this);
+            visitor.visitVar(*this);
         }
-    private: 
         Token::Token name; 
 }; 
