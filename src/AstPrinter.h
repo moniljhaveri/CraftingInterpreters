@@ -21,6 +21,6 @@ class AstPrinter : public Visitor
         void visitUnary(const Unary& expr) override; 
         void visitVar(const Var& expr) override; 
     private: 
-        std::string parenthesize(const std::string& name, std::initializer_list<std::shared_ptr<Expr>>  exprs);
+        void parenthesize(const std::string& name, std::initializer_list<std::shared_ptr<Expr>>  exprs);
 
 };

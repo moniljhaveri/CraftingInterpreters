@@ -10,19 +10,15 @@ void AstPrinter::print(std::shared_ptr<Expr> expr) {
     expr->accept(*this);
 }
 
-std::string AstPrinter::parenthesize(const std::string& name, std::initializer_list<std::shared_ptr<Expr>> exprs)
+void AstPrinter::parenthesize(const std::string& name, std::initializer_list<std::shared_ptr<Expr>> exprs)
 {
-    std::string ansStr = "(";
-    std::cout << "(";
+    std::cout << "(" << name; 
     for(const auto expr :  exprs)
     {
-        ansStr += " "; 
         std::cout << " ";
         expr->accept(*this); 
     }
-    ansStr += ")"; 
     std::cout << ")";
-    return ansStr; 
 
 }
 
@@ -33,7 +29,7 @@ void AstPrinter::visitBinary(const Binary& expr)
 
 void AstPrinter::visitLiteral(const Literal& expr)
 {
-    std::cout << expr.op.lexeme << std::endl; 
+    std::cout << expr.op.lexeme; 
 }
 
 void AstPrinter::visitUnary(const Unary& expr)
